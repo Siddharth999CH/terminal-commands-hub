@@ -194,7 +194,7 @@ async function showInteractiveMenu(): Promise<string | null> {
 
   let selectedIndex = 0;
   let hasRendered = false;
-  const totalLines = options.length + 1; // Header + options + footer
+  const totalLines = options.length + 2; // Header + options + footer
 
   readline.emitKeypressEvents(process.stdin);
   if (process.stdin.isTTY) {

@@ -212,7 +212,7 @@ async function showInteractiveMenu() {
     options.push({ label: 'Cancel', description: 'Exit the menu', command: '' });
     let selectedIndex = 0;
     let hasRendered = false;
-    const totalLines = options.length + 1; // Header + options + footer
+    const totalLines = options.length + 2; // Header + options + footer
     readline.emitKeypressEvents(process.stdin);
     if (process.stdin.isTTY) {
         process.stdin.setRawMode(true);
