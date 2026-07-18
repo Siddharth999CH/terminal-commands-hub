@@ -4,6 +4,10 @@
   "description": "Run your custom CLI utility commands directly from VS Code",
   "version": "1.0.0",
   "publisher": "developer",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Siddharth999CH/terminal-commands-hub.git"
+  },
   "engines": {
     "vscode": "^1.85.0"
   },

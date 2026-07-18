@@ -74,7 +74,7 @@ fi
 if command -v code >/dev/null 2>&1; then
     echo "VS Code detected. Packaging and installing VS Code extension..."
     cd vscode-extension
-    npx @vscode/vsce package
+    npx @vscode/vsce package --allow-missing-repository --skip-license
     VSIX_FILE=$(ls *.vsix | head -n 1)
     if [ -n "$VSIX_FILE" ]; then
         code --install-extension "$VSIX_FILE"

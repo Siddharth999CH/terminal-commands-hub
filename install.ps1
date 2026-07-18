@@ -73,7 +73,7 @@ Set-Alias th Get-TerminalHubCommand
 if (Get-Command code -ErrorAction SilentlyContinue) {
     Write-Host "VS Code detected. Packaging and installing VS Code extension..." -ForegroundColor Cyan
     Push-Location vscode-extension
-    npx @vscode/vsce package
+    npx @vscode/vsce package --allow-missing-repository --skip-license
     $vsixFile = Get-ChildItem *.vsix | Select-Object -First 1
     if ($vsixFile) {
         code --install-extension $vsixFile.FullName
