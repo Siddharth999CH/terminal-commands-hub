@@ -66,6 +66,11 @@ exports.commandsList = [
         executable: 'git pull'
     },
     {
+        name: 'Git Pull Branch',
+        description: 'Pull changes from a custom remote and branch',
+        executable: 'git-pull-prompt'
+    },
+    {
         name: 'Git Diff',
         description: 'Show changes in working directory',
         executable: 'git diff'
@@ -89,6 +94,11 @@ exports.commandsList = [
         name: 'Docker PS',
         description: 'List active Docker containers',
         executable: 'docker ps'
+    },
+    {
+        name: 'Git Clone Repository',
+        description: 'Clone a remote repository into a new folder',
+        executable: 'git-clone-prompt'
     },
     {
         name: 'List files in directory',
@@ -244,7 +254,43 @@ async function showInteractiveMenu() {
             }
             else if (key.name === 'return') {
                 cleanup();
-                resolve(options[selectedIndex].command);
+                const selected = options[selectedIndex];
+                if (selected.command === 'git-clone-prompt') {
+                    process.stdin.resume();
+                    const rl = readline.createInterface({
+                        input: process.stdin,
+                        output: process.stdout
+                    });
+                    rl.question('\n\x1b[36mEnter Git repository URL to clone:\x1b[0m ', (url) => {
+                        rl.close();
+                        process.stdin.pause();
+                        if (url.trim()) {
+                            resolve(`git clone ${url.trim()}`);
+                        }
+                        else {
+                            resolve(null);
+                        }
+                    });
+                }
+                else if (selected.command === 'git-pull-prompt') {
+                    process.stdin.resume();
+                    const rl = readline.createInterface({
+                        input: process.stdin,
+                        output: process.stdout
+                    });
+                    rl.question('\n\x1b[36mEnter remote name (default: origin):\x1b[0m ', (remote) => {
+                        const r = remote.trim() || 'origin';
+                        rl.question('\x1b[36mEnter branch name (default: main):\x1b[0m ', (branch) => {
+                            const b = branch.trim() || 'main';
+                            rl.close();
+                            process.stdin.pause();
+                            resolve(`git pull ${r} ${b}`);
+                        });
+                    });
+                }
+                else {
+                    resolve(selected.command);
+                }
             }
         };
         const cleanup = () => {
