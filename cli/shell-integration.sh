@@ -13,6 +13,20 @@ else
 fi
 CLI_PATH="$SCRIPT_DIR/dist/index.js"
 
+th() {
+    if [ ! -f "$CLI_PATH" ]; then
+        echo -e "\n[Terminal Hub Warning] CLI file not found at $CLI_PATH. Please run 'npm run build' first."
+        return
+    fi
+    local tempFile
+    tempFile=$(mktemp)
+    node "$CLI_PATH" interactive > "$tempFile"
+    if [ -s "$tempFile" ]; then
+        eval "$(cat "$tempFile")"
+    fi
+    rm -f "$tempFile"
+}
+
 # Zsh key binding
 if [ -n "$ZSH_VERSION" ]; then
     term-hub-widget() {

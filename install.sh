@@ -37,23 +37,10 @@ npm link
 cd ..
 
 # 5. Add shell profile integration
-th_integration='
-# Terminal Commands Hub Integration
-th() {
-    local tempFile
-    tempFile=$(mktemp)
-    term-hub interactive > "$tempFile"
-    if [ -s "$tempFile" ]; then
-        eval "$(cat "$tempFile")"
-    fi
-    rm -f "$tempFile"
-}
-'
-
 # Add to ~/.zshrc if exists
 if [ -f "$HOME/.zshrc" ]; then
-    if ! grep -q "term-hub interactive" "$HOME/.zshrc"; then
-        echo "$th_integration" >> "$HOME/.zshrc"
+    if ! grep -q "shell-integration.sh" "$HOME/.zshrc"; then
+        echo -e "\n# Terminal Commands Hub\nsource \"$INSTALL_DIR/cli/shell-integration.sh\"" >> "$HOME/.zshrc"
         echo "Added integration to ~/.zshrc"
     else
         echo "Integration already exists in ~/.zshrc"
@@ -62,8 +49,8 @@ fi
 
 # Add to ~/.bashrc if exists
 if [ -f "$HOME/.bashrc" ]; then
-    if ! grep -q "term-hub interactive" "$HOME/.bashrc"; then
-        echo "$th_integration" >> "$HOME/.bashrc"
+    if ! grep -q "shell-integration.sh" "$HOME/.bashrc"; then
+        echo -e "\n# Terminal Commands Hub\nsource \"$INSTALL_DIR/cli/shell-integration.sh\"" >> "$HOME/.bashrc"
         echo "Added integration to ~/.bashrc"
     else
         echo "Integration already exists in ~/.bashrc"

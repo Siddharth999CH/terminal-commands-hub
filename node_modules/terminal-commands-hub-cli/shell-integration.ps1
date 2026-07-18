@@ -34,4 +34,18 @@ if (-not (Test-Path $CliPath)) {
     } else {
         Write-Warning "PSReadLine module is not loaded. Ctrl+G keybinding could not be registered."
     }
+
+    # Define function and th alias for manual invocation
+    function Get-TerminalHubCommand {
+        $tempFile = [System.IO.Path]::GetTempFileName()
+        node "$CliPath" interactive > $tempFile
+        if (Test-Path $tempFile) {
+            $cmd = Get-Content $tempFile
+            Remove-Item $tempFile
+            if ($cmd) {
+                Invoke-Expression $cmd
+            }
+        }
+    }
+    Set-Alias th Get-TerminalHubCommand -Force -Option AllScope
 }

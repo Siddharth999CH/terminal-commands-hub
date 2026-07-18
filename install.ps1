@@ -45,24 +45,10 @@ if (!(Test-Path $PROFILE)) {
     New-Item -Type File -Path $PROFILE -Force
 }
 
+$integrationPath = Join-Path $installDir "cli\shell-integration.ps1"
 $profileContent = Get-Content $PROFILE -Raw
-if ($profileContent -notlike "*Get-TerminalHubCommand*") {
-    $integrationCode = @"
-
-# Terminal Commands Hub Integration
-function Get-TerminalHubCommand {
-    `$tempFile = [System.IO.Path]::GetTempFileName()
-    term-hub interactive > `$tempFile
-    if (Test-Path `$tempFile) {
-        `$cmd = Get-Content `$tempFile
-        Remove-Item `$tempFile
-        if (`$cmd) {
-            Invoke-Expression `$cmd
-        }
-    }
-}
-Set-Alias th Get-TerminalHubCommand
-"@
+if ($profileContent -notlike "*shell-integration.ps1*") {
+    $integrationCode = "`r`n# Terminal Commands Hub`r`n. `"$integrationPath`""
     Add-Content -Path $PROFILE -Value $integrationCode
     Write-Host "Added integration to PowerShell profile." -ForegroundColor Green
 } else {
