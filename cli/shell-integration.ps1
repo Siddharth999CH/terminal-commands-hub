@@ -7,10 +7,12 @@ $CliPath = Join-Path $ScriptDir "dist\index.js"
 
 # Verify Node and file path exist
 if (-not (Test-Path $CliPath)) {
-    Write-Warning "Terminal Commands Hub CLI file not found at: $CliPath. Please run 'npm run build' first."
+    if ($Host.Name -ne 'Visual Studio Code Host') {
+        Write-Warning "Terminal Commands Hub CLI file not found at: $CliPath. Please run 'npm run build' first."
+    }
 } else {
-    # Check if PSReadLine module is available
-    if (Get-Module PSReadLine -ListAvailable) {
+    # Check if PSReadLine module is available (skip in VS Code Editor Services terminal to avoid crashes)
+    if ($Host.Name -ne 'Visual Studio Code Host' -and (Get-Module PSReadLine -ListAvailable)) {
         Set-PSReadLineKeyHandler -Key 'Alt+q' -BriefDescription 'TerminalHubMenu' -LongDescription 'Open the Terminal Commands Hub interactive menu' -ScriptBlock {
             # Clear the current command line input
             [Microsoft.PowerShell.PSConsoleReadLine]::RevertLine()
@@ -31,8 +33,6 @@ if (-not (Test-Path $CliPath)) {
             }
         }
         Write-Host "Terminal Commands Hub: Alt+Q keybinding registered in PowerShell." -ForegroundColor Cyan
-    } else {
-        Write-Warning "PSReadLine module is not loaded. Ctrl+G keybinding could not be registered."
     }
 
     # Define function and th alias for manual invocation
