@@ -47,5 +47,5 @@ if (-not (Test-Path $CliPath)) {
             }
         }
     }
-    Set-Alias th Get-TerminalHubCommand -Force -Option AllScope
+    Set-Alias th Get-TerminalHubCommand -Force
 }
