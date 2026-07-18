@@ -1,0 +1,19 @@
+{
+  "name": "terminal-commands-hub-cli",
+  "version": "1.0.0",
+  "description": "Core CLI for terminal commands hub",
+  "main": "dist/index.js",
+  "bin": {
+    "term-hub": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "compile": "tsc"
+  },
+  "dependencies": {
+    "commander": "^12.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.7"
+  }
+}

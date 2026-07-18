@@ -1,0 +1,41 @@
+{
+  "name": "terminal-commands-hub-extension",
+  "displayName": "Terminal Commands Hub",
+  "description": "Run your custom CLI utility commands directly from VS Code",
+  "version": "1.0.0",
+  "publisher": "developer",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "main": "./dist/extension.js",
+  "activationEvents": [],
+  "contributes": {
+    "commands": [
+      {
+        "command": "terminal-commands-hub.runCommand",
+        "title": "Terminal Hub: Run Command"
+      }
+    ],
+    "menus": {
+      "terminal/context": [
+        {
+          "command": "terminal-commands-hub.runCommand",
+          "group": "navigation"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc",
+    "build": "tsc",
+    "watch": "tsc -w"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.85.0",
+    "@types/node": "^20.12.7"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "terminal-commands-hub-workspace",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "cli",
+    "vscode-extension"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "compile": "npm run compile --workspaces --if-present"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  }
+}
