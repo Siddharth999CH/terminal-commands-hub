@@ -1,0 +1,10 @@
+# Exclude parent folder files from vsce packaging
+../.gitignore
+../README.md
+../install.ps1
+../install.sh
+../package-lock.json
+../package.json
+../.vscode/**
+../cli/**
+../node_modules/**
