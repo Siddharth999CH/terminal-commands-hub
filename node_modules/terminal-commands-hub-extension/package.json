@@ -8,11 +8,6 @@
     "type": "git",
     "url": "https://github.com/Siddharth999CH/terminal-commands-hub.git"
   },
-  "files": [
-    "dist/**/*.js",
-    "package.json",
-    "README.md"
-  ],
   "engines": {
     "vscode": "^1.85.0"
   },
