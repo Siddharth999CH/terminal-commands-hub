@@ -18,6 +18,7 @@ fi
 if [ -d "$INSTALL_DIR" ]; then
     echo "Directory already exists. Pulling latest changes..."
     cd "$INSTALL_DIR"
+    git reset --hard
     git pull
 else
     echo "Cloning repository..."

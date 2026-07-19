@@ -17,6 +17,7 @@ if (-not (Get-Command git -ErrorAction SilentlyContinue)) {
 if (Test-Path $installDir) {
     Write-Host "Directory already exists. Pulling latest changes..." -ForegroundColor Yellow
     Push-Location $installDir
+    git reset --hard
     git pull
     Pop-Location
 } else {
@@ -56,7 +57,7 @@ foreach ($path in $profilePaths) {
     }
     
     $content = Get-Content $path -Raw
-    if ($content -notlike "*shell-integration.ps1*") {
+    if (-not $content -or $content -notlike "*shell-integration.ps1*") {
         Add-Content -Path $path -Value $integrationCode
         Write-Host "Added integration to PowerShell profile: $path" -ForegroundColor Green
     } else {
