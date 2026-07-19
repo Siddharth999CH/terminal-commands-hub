@@ -37,22 +37,31 @@ npm link
 Pop-Location
 
 # 5. Add PowerShell profile integration
-$profileDir = Split-Path -Parent $PROFILE
-if (!(Test-Path $profileDir)) {
-    New-Item -Type Directory -Path $profileDir -Force
-}
-if (!(Test-Path $PROFILE)) {
-    New-Item -Type File -Path $PROFILE -Force
-}
+$profilePaths = @(
+    $PROFILE,
+    (Join-Path (Split-Path -Parent $PROFILE) "Microsoft.PowerShell_profile.ps1"),
+    (Join-Path (Split-Path -Parent $PROFILE) "Microsoft.VSCode_profile.ps1")
+)
 
 $integrationPath = Join-Path $installDir "cli\shell-integration.ps1"
-$profileContent = Get-Content $PROFILE -Raw
-if ($profileContent -notlike "*shell-integration.ps1*") {
-    $integrationCode = "`r`n# Terminal Commands Hub`r`n. `"$integrationPath`""
-    Add-Content -Path $PROFILE -Value $integrationCode
-    Write-Host "Added integration to PowerShell profile." -ForegroundColor Green
-} else {
-    Write-Host "Integration already exists in PowerShell profile." -ForegroundColor Yellow
+$integrationCode = "`r`n# Terminal Commands Hub`r`n. `"$integrationPath`""
+
+foreach ($path in $profilePaths) {
+    $dir = Split-Path -Parent $path
+    if (!(Test-Path $dir)) {
+        New-Item -Type Directory -Path $dir -Force | Out-Null
+    }
+    if (!(Test-Path $path)) {
+        New-Item -Type File -Path $path -Force | Out-Null
+    }
+    
+    $content = Get-Content $path -Raw
+    if ($content -notlike "*shell-integration.ps1*") {
+        Add-Content -Path $path -Value $integrationCode
+        Write-Host "Added integration to PowerShell profile: $path" -ForegroundColor Green
+    } else {
+        Write-Host "Integration already exists in PowerShell profile: $path" -ForegroundColor Yellow
+    }
 }
 
 # 6. Install VS Code Extension if code is installed
